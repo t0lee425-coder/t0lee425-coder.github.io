@@ -3,22 +3,373 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>나의 홈페이지</title>
+  <meta name="description" content="인사제도 기획·운영, 조직 및 인력구조 진단, 평가·보상, 노무관리와 업무 자동화 경험을 정리한 HR 포트폴리오">
+  <meta name="theme-color" content="#10243a">
+  <title>HR Portfolio | 이태영</title>
   <style>
-    body {
-      font-family: Arial, sans-serif;
-      max-width: 800px;
-      margin: 80px auto;
-      padding: 20px;
-      line-height: 1.8;
+    :root {
+      --navy: #10243a;
+      --navy-2: #173653;
+      --blue: #2d628c;
+      --sky: #eaf2f8;
+      --ink: #1b2937;
+      --muted: #617184;
+      --line: #dce4eb;
+      --paper: #ffffff;
+      --soft: #f5f8fb;
+      --accent: #b8d4e8;
+      --radius: 18px;
+      --shadow: 0 14px 38px rgba(16, 36, 58, .08);
     }
-    h1 { color: #1f4e79; }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; scroll-padding-top: 86px; }
+    body {
+      margin: 0; color: var(--ink); background: var(--paper);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans KR", "Malgun Gothic", sans-serif;
+      line-height: 1.7; letter-spacing: -.015em;
+    }
+    a { color: inherit; text-decoration: none; }
+    button, a { -webkit-tap-highlight-color: transparent; }
+    .wrap { width: min(1120px, calc(100% - 44px)); margin: 0 auto; }
+    .topbar {
+      position: sticky; top: 0; z-index: 20; background: rgba(255,255,255,.94);
+      border-bottom: 1px solid rgba(220,228,235,.85); backdrop-filter: blur(12px);
+    }
+    .nav { min-height: 70px; display: flex; align-items: center; justify-content: space-between; gap: 24px; }
+    .brand { color: var(--navy); font-weight: 850; letter-spacing: -.04em; font-size: 1.05rem; }
+    .brand span { color: var(--blue); }
+    .navlinks { display: flex; align-items: center; gap: 25px; font-size: .91rem; color: #4c5c6d; }
+    .navlinks a:hover { color: var(--blue); }
+    .navlinks .nav-cta { background: var(--navy); color: white; padding: 9px 15px; border-radius: 999px; }
+    .hero { background: linear-gradient(120deg, #10243a 0%, #173653 62%, #245577 100%); color: white; overflow: hidden; }
+    .hero-inner { min-height: 555px; display: grid; grid-template-columns: 1.35fr .65fr; align-items: center; gap: 55px; padding-top: 70px; padding-bottom: 74px; }
+    .eyebrow { text-transform: uppercase; font-size: .78rem; font-weight: 800; letter-spacing: .16em; color: #b8d4e8; }
+    h1 { margin: 18px 0 22px; font-size: clamp(2.35rem, 5vw, 4.25rem); line-height: 1.18; letter-spacing: -.06em; }
+    h1 .light { color: #b8d4e8; }
+    .hero-copy { max-width: 660px; font-size: 1.08rem; color: #e0e9f0; }
+    .hero-copy strong { color: white; font-weight: 750; }
+    .hero-actions { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 31px; }
+    .btn { display: inline-flex; align-items: center; justify-content: center; min-height: 46px; padding: 0 18px; border-radius: 10px; font-weight: 750; font-size: .93rem; transition: transform .18s ease, background .18s ease; }
+    .btn:hover { transform: translateY(-2px); }
+    .btn-primary { background: white; color: var(--navy); }
+    .btn-outline { color: white; border: 1px solid rgba(255,255,255,.45); }
+    .hero-panel { border: 1px solid rgba(255,255,255,.19); border-radius: 24px; padding: 26px; background: rgba(255,255,255,.07); box-shadow: 0 25px 65px rgba(0,0,0,.12); }
+    .panel-label { color: #b8d4e8; font-size: .78rem; font-weight: 800; letter-spacing: .12em; }
+    .panel-title { font-size: 1.35rem; font-weight: 800; margin: 8px 0 19px; }
+    .focus-item { display: flex; align-items: flex-start; gap: 12px; padding: 13px 0; border-top: 1px solid rgba(255,255,255,.14); color: #e5edf4; font-size: .94rem; }
+    .focus-number { color: #b8d4e8; font-weight: 850; font-size: .8rem; padding-top: 3px; }
+    .section { padding: 88px 0; }
+    .section-soft { background: var(--soft); }
+    .section-head { max-width: 720px; margin-bottom: 38px; }
+    .section-kicker { color: var(--blue); text-transform: uppercase; letter-spacing: .13em; font-weight: 850; font-size: .76rem; }
+    h2 { margin: 9px 0 12px; color: var(--navy); font-size: clamp(1.8rem, 3vw, 2.55rem); line-height: 1.25; letter-spacing: -.045em; }
+    .section-intro { color: var(--muted); margin: 0; font-size: 1.02rem; }
+    .principles { display: grid; grid-template-columns: repeat(3, 1fr); gap: 17px; }
+    .principle, .project, .capability, .timeline-card { background: white; border: 1px solid var(--line); border-radius: var(--radius); padding: 25px; }
+    .principle .num { color: var(--blue); font-weight: 900; font-size: .82rem; letter-spacing: .08em; }
+    h3 { margin: 10px 0 9px; color: var(--navy); font-size: 1.16rem; letter-spacing: -.03em; }
+    .principle p, .project p, .capability p { margin: 0; color: var(--muted); font-size: .94rem; }
+    .project-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 18px; }
+    .project { position: relative; overflow: hidden; box-shadow: var(--shadow); }
+    .project-top { display: flex; justify-content: space-between; align-items: center; gap: 12px; }
+    .tag { display: inline-flex; border-radius: 999px; background: var(--sky); color: var(--blue); padding: 5px 10px; font-size: .76rem; font-weight: 800; }
+    .project-index { color: #a5b4c2; font-size: .8rem; font-weight: 850; }
+    .project h3 { font-size: 1.25rem; margin-top: 16px; }
+    .project ul { margin: 16px 0 0; padding-left: 19px; color: #4e6071; font-size: .92rem; }
+    .project li { margin: 5px 0; }
+    .note { border-left: 3px solid var(--blue); padding: 12px 15px; background: var(--sky); color: #36536b; font-size: .87rem; margin-top: 22px; border-radius: 0 10px 10px 0; }
+    .capability-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 17px; }
+    .capability-icon { display: grid; place-items: center; width: 42px; height: 42px; border-radius: 12px; background: var(--sky); color: var(--blue); font-weight: 900; font-size: 1rem; }
+    .capability ul { padding-left: 18px; margin: 13px 0 0; color: var(--muted); font-size: .91rem; }
+    .timeline { border-left: 2px solid var(--line); margin-left: 7px; padding-left: 27px; display: grid; gap: 17px; }
+    .timeline-card { position: relative; }
+    .timeline-card:before { content: ""; position: absolute; left: -36px; top: 27px; width: 14px; height: 14px; border-radius: 50%; background: var(--blue); border: 3px solid white; box-shadow: 0 0 0 2px var(--line); }
+    .timeline-date { color: var(--blue); font-weight: 850; font-size: .82rem; }
+    .timeline-card p { color: var(--muted); margin: 7px 0 0; }
+    .strengths { display: flex; flex-wrap: wrap; gap: 9px; margin-top: 18px; }
+    .strengths span { padding: 8px 12px; border: 1px solid var(--line); border-radius: 999px; background: white; color: #405469; font-size: .88rem; font-weight: 700; }
+    .contact { background: var(--navy); color: white; }
+    .contact h2 { color: white; }
+    .contact .section-intro { color: #d2dee8; }
+    .contact-box { display: flex; align-items: center; justify-content: space-between; gap: 30px; border: 1px solid rgba(255,255,255,.18); padding: 28px; border-radius: var(--radius); margin-top: 28px; }
+    .contact-box p { color: #d2dee8; margin: 5px 0 0; }
+    .contact .btn-primary { white-space: nowrap; }
+    footer { padding: 24px 0; color: #758596; font-size: .82rem; background: #f5f8fb; }
+    .footer-inner { display: flex; justify-content: space-between; gap: 20px; }
+    @media (max-width: 850px) {
+      .hero-inner { grid-template-columns: 1fr; gap: 32px; min-height: auto; }
+      .hero-panel { max-width: 620px; }
+      .principles, .capability-grid { grid-template-columns: 1fr 1fr; }
+      .navlinks { gap: 13px; }
+      .navlinks a:not(.nav-cta) { display: none; }
+    }
+    @media (max-width: 600px) {
+      .wrap { width: min(100% - 30px, 1120px); }
+      .nav { min-height: 62px; }
+      .hero-inner { padding-top: 55px; padding-bottom: 56px; }
+      .hero-copy { font-size: 1rem; }
+      .section { padding: 64px 0; }
+      .principles, .project-grid, .capability-grid { grid-template-columns: 1fr; }
+      .principle, .project, .capability, .timeline-card { padding: 21px; }
+      .contact-box { align-items: flex-start; flex-direction: column; padding: 22px; }
+      .footer-inner { flex-direction: column; gap: 5px; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      *, *::before, *::after { transition: none !important; }
+    }
   </style>
 </head>
 <body>
-  <h1>나의 홈페이지</h1>
-  <p>GitHub Pages로 만든 첫 번째 웹사이트입니다.</p>
-  <h2>소개</h2>
-  <p>이곳에 소개와 프로젝트 내용을 작성하세요.</p>
+  <header class="topbar">
+    <div class="wrap nav">
+      <a class="brand" href="#home">HR <span>PORTFOLIO</span></a>
+      <nav class="navlinks" aria-label="주요 메뉴">
+        <a href="#about">소개</a>
+        <a href="#projects">주요 프로젝트</a>
+        <a href="#expertise">전문 분야</a>
+        <a href="#experience">경력</a>
+        <a class="nav-cta" href="#contact">연락 안내</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero" id="home">
+      <div class="wrap hero-inner">
+        <div>
+          <div class="eyebrow">Human Resources · Strategy · Operations</div>
+          <h1>사람과 조직을 이해하고,<br><span class="light">제도와 실행</span>으로 연결합니다.</h1>
+          <p class="hero-copy">
+            <strong>이태영 | HR 실무·기획</strong><br>
+            인사제도 기획과 운영, 평가·보상, 인력구조 진단, 노무관리와 조직 변화 대응까지.
+            현장의 문제를 정확히 파악하고 실행 가능한 인사 대안을 설계하는 데 집중합니다.
+          </p>
+          <div class="hero-actions">
+            <a class="btn btn-primary" href="#projects">주요 프로젝트 보기 ↓</a>
+            <a class="btn btn-outline" href="#expertise">전문 분야 살펴보기</a>
+          </div>
+        </div>
+        <aside class="hero-panel" aria-label="핵심 전문 분야">
+          <div class="panel-label">CORE FOCUS</div>
+          <div class="panel-title">인사 전략을 실무 성과로</div>
+          <div class="focus-item"><span class="focus-number">01</span><span>인력구조 진단 및 중장기 인력운영 계획</span></div>
+          <div class="focus-item"><span class="focus-number">02</span><span>평가·보상 체계와 성과관리 제도 개선</span></div>
+          <div class="focus-item"><span class="focus-number">03</span><span>노무 리스크 관리와 조직 변화 대응</span></div>
+          <div class="focus-item"><span class="focus-number">04</span><span>데이터·AI를 활용한 인사업무 효율화</span></div>
+        </aside>
+      </div>
+    </section>
+
+    <section class="section" id="about">
+      <div class="wrap">
+        <div class="section-head">
+          <div class="section-kicker">Profile</div>
+          <h2>현장을 이해하는 기획,<br>실행으로 이어지는 인사</h2>
+          <p class="section-intro">
+            인사는 제도를 만드는 일에서 끝나지 않습니다. 사업과 조직의 상황을 이해하고,
+            구성원이 실제로 적용할 수 있는 기준과 운영 방식을 정착시키는 것이 중요하다고 생각합니다.
+          </p>
+        </div>
+        <div class="principles">
+          <article class="principle">
+            <div class="num">01 / DIAGNOSE</div>
+            <h3>현황을 정확히 진단</h3>
+            <p>인력 구성, 제도 운영, 조직의 요구를 함께 살펴 문제의 원인과 우선순위를 구분합니다.</p>
+          </article>
+          <article class="principle">
+            <div class="num">02 / DESIGN</div>
+            <h3>실행 가능한 대안 설계</h3>
+            <p>법적 기준과 운영 현실을 함께 고려해 현장에 적용할 수 있는 제도와 절차를 설계합니다.</p>
+          </article>
+          <article class="principle">
+            <div class="num">03 / IMPLEMENT</div>
+            <h3>운영 결과를 점검</h3>
+            <p>시행 과정의 의견과 데이터를 확인하고, 실제 운영 결과를 바탕으로 보완점을 찾습니다.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section-soft" id="projects">
+      <div class="wrap">
+        <div class="section-head">
+          <div class="section-kicker">Selected Projects</div>
+          <h2>주요 프로젝트</h2>
+          <p class="section-intro">인사 기획부터 제도 운영과 조직 변화 대응까지, 경험을 프로젝트 단위로 정리했습니다.</p>
+        </div>
+        <div class="project-grid">
+          <article class="project">
+            <div class="project-top"><span class="tag">인력계획 · 조직진단</span><span class="project-index">PROJECT 01</span></div>
+            <h3>중장기 인력구조 진단 및 인력운영 전략</h3>
+            <p>직급별 인력 구성과 연령 분포, 퇴직 및 이직 요인을 검토해 향후 인력구조 변화와 운영 과제를 분석합니다.</p>
+            <ul>
+              <li>직급·연령별 현황 및 인력구조 특성 분석</li>
+              <li>퇴직·이직 가정을 반영한 시나리오 검토</li>
+              <li>조직별 충원 우선순위와 인건비 영향 검토</li>
+            </ul>
+          </article>
+          <article class="project">
+            <div class="project-top"><span class="tag">평가 · 보상</span><span class="project-index">PROJECT 02</span></div>
+            <h3>평가제도 및 성과관리 체계 개선</h3>
+            <p>업적과 역량을 구분해 평가 기준을 정비하고, 면담과 결과 점검을 통해 평가 운영의 일관성을 높입니다.</p>
+            <ul>
+              <li>평가 항목 및 배점 구조 검토</li>
+              <li>목표 점검과 관리자 면담 운영 지원</li>
+              <li>평가 결과와 보상 운영 간 연계 검토</li>
+            </ul>
+          </article>
+          <article class="project">
+            <div class="project-top"><span class="tag">인사제도 · 운영</span><span class="project-index">PROJECT 03</span></div>
+            <h3>직급·승진 및 보상제도 운영 개선</h3>
+            <p>조직의 역할과 인사 운영상 필요를 고려해 직급 체계, 승진 기준, 보상 제도의 운영 기준을 검토하고 개선을 추진합니다.</p>
+            <ul>
+              <li>직급 체계 및 승진 기준 개선</li>
+              <li>성과와 보상 간 연계 방식 검토</li>
+              <li>규정·기준 정비 및 구성원 안내</li>
+            </ul>
+          </article>
+          <article class="project">
+            <div class="project-top"><span class="tag">노무 · 조직 변화</span><span class="project-index">PROJECT 04</span></div>
+            <h3>노무 리스크 관리 및 조직 변화 대응</h3>
+            <p>노동관계 법령과 사내 규정을 기준으로 주요 인사 이슈를 검토하고, 조직 변화 과정에서 필요한 실무 대응을 수행합니다.</p>
+            <ul>
+              <li>취업규칙·임금·인사 관련 규정 검토</li>
+              <li>노사협의 및 노동관계 이슈 대응</li>
+              <li>인력 조정·근무지 변경 등 변화 관리 지원</li>
+            </ul>
+          </article>
+          <article class="project">
+            <div class="project-top"><span class="tag">채용 · 인재육성</span><span class="project-index">PROJECT 05</span></div>
+            <h3>채용 및 학습·역량개발 운영</h3>
+            <p>채용 단계별 운영을 정비하고, 직급과 역할에 맞는 교육 및 학습평가를 기획해 운영의 체계성을 높입니다.</p>
+            <ul>
+              <li>채용 절차 및 후보자 관리 개선</li>
+              <li>직급별 교육·권장도서 운영 계획</li>
+              <li>학습 결과 확인 및 평가 운영</li>
+            </ul>
+          </article>
+          <article class="project">
+            <div class="project-top"><span class="tag">업무 효율화 · 데이터</span><span class="project-index">PROJECT 06</span></div>
+            <h3>데이터 기반 인사업무 효율화</h3>
+            <p>반복적으로 작성·취합하는 자료를 구조화하고, 분석과 보고에 필요한 절차를 단순화하는 도구를 구상·개선합니다.</p>
+            <ul>
+              <li>인력 현황 및 인건비 분석 자료 구조화</li>
+              <li>채용·평가 업무의 자동화 가능 영역 검토</li>
+              <li>AI 활용 시 정확성·보안·검토 절차 고려</li>
+            </ul>
+          </article>
+        </div>
+        <div class="note">프로젝트는 실무 경험을 바탕으로 공개 가능한 범위에서 요약했습니다. 구체적인 회사 내부 수치, 인명, 미공개 자료 및 영업상 정보는 포함하지 않았습니다.</div>
+      </div>
+    </section>
+
+    <section class="section" id="expertise">
+      <div class="wrap">
+        <div class="section-head">
+          <div class="section-kicker">Expertise</div>
+          <h2>전문 분야</h2>
+          <p class="section-intro">인사 업무 전반을 연결해 진단하고, 제도 설계와 운영이 실제로 작동하도록 관리합니다.</p>
+        </div>
+        <div class="capability-grid">
+          <article class="capability">
+            <div class="capability-icon">HR</div>
+            <h3>인사기획·인력운영</h3>
+            <p>사업계획과 조직 상황을 반영한 인력 운영</p>
+            <ul><li>중장기 인력구조 분석</li><li>인원계획 및 인건비 검토</li><li>직무·직급 구조 개선</li></ul>
+          </article>
+          <article class="capability">
+            <div class="capability-icon">↗</div>
+            <h3>평가·보상·성과관리</h3>
+            <p>목표와 성과를 제도 운영에 연결</p>
+            <ul><li>업적·역량평가 운영</li><li>승진·보상 기준 검토</li><li>면담 및 결과 관리</li></ul>
+          </article>
+          <article class="capability">
+            <div class="capability-icon">§</div>
+            <h3>노무·규정 관리</h3>
+            <p>법적 기준과 회사 운영의 균형</p>
+            <ul><li>취업규칙·인사규정 검토</li><li>노사관계 및 현안 대응</li><li>노무 리스크 사전 점검</li></ul>
+          </article>
+          <article class="capability">
+            <div class="capability-icon">＋</div>
+            <h3>채용·인재육성</h3>
+            <p>필요 인재 확보와 역량 개발 지원</p>
+            <ul><li>채용 프로세스 운영</li><li>교육 및 학습평가 기획</li><li>신규 입사자 의견 청취</li></ul>
+          </article>
+          <article class="capability">
+            <div class="capability-icon">↔</div>
+            <h3>조직 변화 관리</h3>
+            <p>변화 과정의 기준 정비와 실무 지원</p>
+            <ul><li>조직·사업 운영 변화 대응</li><li>인력 운영 영향 검토</li><li>규정·안내·절차 정비</li></ul>
+          </article>
+          <article class="capability">
+            <div class="capability-icon">AI</div>
+            <h3>데이터·업무 자동화</h3>
+            <p>자료 구조화와 실무 도구 개선</p>
+            <ul><li>Excel 기반 분석 및 보고</li><li>AI 활용 업무 개선 구상</li><li>결과 검증과 정보보호 고려</li></ul>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section-soft" id="experience">
+      <div class="wrap">
+        <div class="section-head">
+          <div class="section-kicker">Experience</div>
+          <h2>경력과 업무 경험</h2>
+          <p class="section-intro">장기간의 인사 실무 경험을 바탕으로 일상적인 운영과 제도 개선, 조직 변화 대응을 함께 수행해 왔습니다.</p>
+        </div>
+        <div class="timeline">
+          <article class="timeline-card">
+            <div class="timeline-date">2004 — 현재 · 인사 분야</div>
+            <h3>인사 실무 및 기획 경험</h3>
+            <p>인사기획·운영, 채용, 평가·보상, 교육, 노무관리, 규정 정비 등 인사 업무 전반의 실무 경험을 축적했습니다.</p>
+          </article>
+          <article class="timeline-card">
+            <div class="timeline-date">2009 — 현재 · 제조업 기반 기업</div>
+            <h3>인사제도 운영과 조직 변화 대응</h3>
+            <p>직급·승진 제도, 성과관리, 보상 운영, 노사관계, 조직 및 근무지 변화 등 다양한 인사 과제를 담당했습니다.</p>
+          </article>
+          <article class="timeline-card">
+            <div class="timeline-date">최근 업무 관심 분야</div>
+            <h3>인력구조 분석과 인사업무 효율화</h3>
+            <p>중장기 인력 전망, 인건비 분석, 평가 운영 개선과 함께 데이터·AI를 활용한 인사 업무의 효율화 방안을 검토하고 있습니다.</p>
+          </article>
+        </div>
+        <div class="strengths" aria-label="핵심 역량">
+          <span>인사기획</span><span>인력운영</span><span>평가·보상</span><span>노무관리</span>
+          <span>규정 정비</span><span>조직 변화 대응</span><span>채용·교육</span><span>데이터 분석</span><span>업무 개선</span>
+        </div>
+        <div class="note">경력 연도와 직책은 공개 목적에 맞춰 작성한 초안입니다. 실제 이력서와 대조해 정확한 입·퇴사 시점, 직책, 성과 및 담당 범위를 최종 확인해 주세요.</div>
+      </div>
+    </section>
+
+    <section class="section contact" id="contact">
+      <div class="wrap">
+        <div class="section-head">
+          <div class="section-kicker">Contact</div>
+          <h2>경험과 관점을 나눕니다.</h2>
+          <p class="section-intro">인사제도, 인력운영, 평가·보상 및 업무 개선과 관련한 전문적인 교류를 환영합니다.</p>
+        </div>
+        <div class="contact-box">
+          <div>
+            <strong>이태영 | HR Portfolio</strong>
+            <p>연락처와 공개 가능한 프로필 링크는 필요에 따라 추가할 수 있습니다.</p>
+          </div>
+          <a class="btn btn-primary" href="#home">맨 위로 ↑</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="wrap footer-inner">
+      <span>© <span id="year">2026</span> HR Portfolio. All rights reserved.</span>
+      <span>본 사이트는 공개 가능한 경력과 프로젝트 개요만을 담고 있습니다.</span>
+    </div>
+  </footer>
+  <script>
+    document.getElementById("year").textContent = new Date().getFullYear();
+  </script>
 </body>
 </html>
